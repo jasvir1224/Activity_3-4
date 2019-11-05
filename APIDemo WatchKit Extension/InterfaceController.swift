@@ -11,30 +11,62 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
-class InterfaceController: WKInterfaceController {
-    
-    // MARK: Outlet
-    // ---------------
- 
-    @IBOutlet var watchOutputLabel: WKInterfaceLabel!
+class InterfaceController: WKInterfaceController, CLLocationManagerDelegate {
     
     
-    // MARK: Actions
-    @IBAction func getDataPressed() {
-        print("Watch button pressed")
-        // TODO: Put your API call here
-        let URL = "https://httpbin.org/get"
-        //let URL = "https://jsonplaceholder.typicode.com/posts"
+    @IBOutlet var cityLabel: WKInterfaceLabel!
+    
+    
+    @IBOutlet var imageIcon: WKInterfaceImage!
+    
+    @IBOutlet var tempLabel: WKInterfaceLabel!
+    
+    let locationManager = CLLocationManager()
+    var weatherName : String = ""
+
+    
+    @IBAction func changeCityButton() {
         
-        Alamofire.request(URL).responseJSON {
+       
+    }
+ 
+    
+    
+    
+    
+    
+    
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
+        
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+       
+        
+    }
+    
+    
+    
+    
+    
+    override func willActivate() {
+        
+        let preferences = UserDefaults.standard
+    
+        var lat = preferences.string(forKey:"newLat")
+        var lng = preferences.string(forKey:"newLng")
+        var city = preferences.string(forKey:"newCity")
+        let url = "https://samples.openweathermap.org/data/2.5/group?id=524901,703448,2643743&units=metric&appid=b6907d289e10d714a6e88b30761fae22"
+
+       
+        
+        super.willActivate()
+        Alamofire.request(url).responseJSON {
             
             response in
-            
-            // TODO: Put your code in here
-            // ------------------------------------------
-            // 1. Convert the API response to a JSON object
-            
-            // -- check for errors
+          
             let apiData = response.result.value
             if (apiData == nil) {
                 print("Error when getting API data")
@@ -44,41 +76,32 @@ class InterfaceController: WKInterfaceController {
             
             print(apiData)
             
-            
-            // 2. Parse out the data you need (sunrise / sunset time)
-            
-            // example1 - parse a dictionary
-            
+           
             // 2a. Convert the response to a JSON object
-            let jsonResponse = JSON(apiData)
+            let json = JSON(apiData)
+            func updateWeatherData(json : JSON) {
+                let name = json["list"]["name"].string
+                let temp = json["list"]["main"]["temp"].string
+               // let temp1 = String(temp)
+                print(temp)
+                print(name)
+                
+                
+                self.cityLabel.setText(name)
+                self.tempLabel.setText(temp)
+        
+        
+        
+    }
             
-            // 2b. Get a key from the JSON object
-            let origin = jsonResponse["origin"]
-            let host = jsonResponse["headers"]["Host"]
-            
-            // 3. Show the data in the user interface
-            self.watchOutputLabel.setText("\(origin)")
         }
-    }
-    
-    
-    
-    override func awake(withContext context: Any?) {
-        super.awake(withContext: context)
-        
-        // Configure interface objects here.
-    }
-    
-    override func willActivate() {
-        // This method is called when watch view controller is about to be visible to user
-        super.willActivate()
-        
         
     }
-   
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
     }
-
+    
+    
 }
+    

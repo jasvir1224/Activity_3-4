@@ -14,19 +14,50 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="APIDemo_WatchKit_App" customModuleProvider="target">
                     <items>
-                        <label alignment="left" text="Watch App" id="x5x-MS-41c"/>
-                        <button width="1" alignment="left" title="Get Data" id="oFp-PR-3wU">
+                        <label width="136" height="14" alignment="center" text="Label" id="zIx-kU-k0J"/>
+                        <label width="136" height="16" alignment="right" text="Label" id="sMA-hz-ipx"/>
+                        <imageView width="64" height="60" alignment="left" id="PYH-tb-Vy8"/>
+                        <button width="1" alignment="left" verticalAlignment="bottom" title="Change City" id="H0g-8J-muU">
                             <connections>
-                                <action selector="getDataPressed" destination="AgC-eL-Hgc" id="Y7m-Nn-eSi"/>
+                                <action selector="changeCityButton" destination="AgC-eL-Hgc" id="BAz-xV-Fef"/>
+                                <segue destination="MsZ-P9-aGk" kind="push" id="baZ-qb-FfC"/>
                             </connections>
                         </button>
-                        <label alignment="left" text="Label" id="l12-Sb-WkN"/>
                     </items>
                     <connections>
-                        <outlet property="watchOutputLabel" destination="l12-Sb-WkN" id="sdF-fb-v3Z"/>
+                        <outlet property="cityLabel" destination="zIx-kU-k0J" id="OHj-PE-NCr"/>
+                        <outlet property="imageIcon" destination="PYH-tb-Vy8" id="Uft-f3-flc"/>
+                        <outlet property="tempLabel" destination="sMA-hz-ipx" id="IGI-Iv-gy9"/>
                     </connections>
                 </controller>
             </objects>
+            <point key="canvasLocation" x="129" y="161"/>
+        </scene>
+        <!--Second Interface Controller-->
+        <scene sceneID="iCW-dd-iAg">
+            <objects>
+                <controller id="MsZ-P9-aGk" customClass="SecondInterfaceController" customModule="APIDemo_WatchKit_App" customModuleProvider="target">
+                    <items>
+                        <label width="131" height="27" alignment="left" verticalAlignment="center" text="Label" id="Jbo-Fr-8wq"/>
+                        <button width="1" alignment="left" title="Select country" id="QWe-Vb-1m6">
+                            <connections>
+                                <action selector="selectCounrty" destination="MsZ-P9-aGk" id="bTQ-ol-mfy"/>
+                            </connections>
+                        </button>
+                        <button width="1" alignment="left" verticalAlignment="bottom" title="Get Weather" id="RY5-W3-oiQ">
+                            <connections>
+                                <action selector="getWeather" destination="MsZ-P9-aGk" id="79T-If-zC2"/>
+                                <segue destination="AgC-eL-Hgc" kind="push" id="Sgt-VU-AFV"/>
+                            </connections>
+                        </button>
+                    </items>
+                    <connections>
+                        <outlet property="Label" destination="Jbo-Fr-8wq" id="UVc-ul-Wwn"/>
+                        <outlet property="getWeather" destination="RY5-W3-oiQ" id="IKI-cU-MBx"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="125" y="424"/>
         </scene>
     </scenes>
 </document>
